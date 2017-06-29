@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SampleApp</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">SAMPLE APP</string>
+    <string name="search">Search</string>
+    <string name="favorites">favorites</string>
+    <string name="Others">Others</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+</resources>
