@@ -24,6 +24,7 @@ import java.net.URL;
 public class NetworkUtil {
 
     private final String URL = "";
+    private final String REQUEST_METHOD ="";
 
     public interface AsyncResponse {
         void processFinish(String output);
@@ -61,7 +62,7 @@ public class NetworkUtil {
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Content-Language", "en-US");
-                connection.setRequestMethod("POST");
+                connection.setRequestMethod(REQUEST_METHOD);
 
                 int responseCode = connection.getResponseCode();
                 connection.connect();
@@ -89,7 +90,6 @@ public class NetworkUtil {
                             return null;
                         }
                     }
-
                     JsonResponse = buffer.toString();
                 } else {
                     InputStream stream = connection.getErrorStream();
@@ -130,7 +130,6 @@ public class NetworkUtil {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             delegate.processFinish(result);
-            //resultData.setText(result);
         }
     }
 }
