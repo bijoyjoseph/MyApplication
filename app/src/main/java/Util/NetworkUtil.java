@@ -3,6 +3,8 @@ package Util;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -24,9 +26,7 @@ public class NetworkUtil {
     private final String URL = "";
 
     public interface AsyncResponse {
-
         void processFinish(String output);
-
     }
 
     public class APIutil extends AsyncTask<String, String, String> {
@@ -47,6 +47,7 @@ public class NetworkUtil {
 
             String JsonResponse = null;
             String JsonData = params[0];
+            JSONObject postData = new JSONObject();
             HttpURLConnection connection = null;
             BufferedReader reader = null;
 
@@ -59,30 +60,44 @@ public class NetworkUtil {
                 connection.setDoOutput(true);
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Language", "en-US");
+                connection.setRequestMethod("POST");
+
+                int responseCode = connection.getResponseCode();
                 connection.connect();
 
                 //Log.e("connection", "" + connection);
-
-                Writer writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-                writer.write(JsonData);
-                writer.flush();
-                writer.close();
-
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
+                if(postData != null) {
+                    Writer writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+                    writer.write(JsonData);
+                    writer.flush();
+                    writer.close();
                 }
 
-                Log.e("result", "" + buffer.toString());
+                if(responseCode == connection.HTTP_OK) {
 
-                return buffer.toString();
+                    InputStream stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+
+                    String line = "";
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                        if (buffer.length() == 0) {
+                            // Stream was empty. No point in parsing.
+                            return null;
+                        }
+                    }
+
+                    JsonResponse = buffer.toString();
+                } else {
+                    InputStream stream = connection.getErrorStream();
+                }
+
+                Log.e("result", "" + JsonResponse);
+
+                return JsonResponse;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -112,8 +127,9 @@ public class NetworkUtil {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            delegate.processFinish(result);
             //resultData.setText(result);
         }
     }
