@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     Context context;
     public String get_username, get_password;
 
-    private final String URL = "https://app.legrooms.com/api/authenticate";
+    private final String URL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
