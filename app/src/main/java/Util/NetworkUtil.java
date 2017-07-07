@@ -51,7 +51,7 @@ public class NetworkUtil {
             JSONObject postData = new JSONObject();
             HttpURLConnection connection = null;
             BufferedReader reader = null;
-            String _authHeader;
+            String _authHeader = "";
 
             try {
 
@@ -61,8 +61,10 @@ public class NetworkUtil {
                 connection.setConnectTimeout(1500);
                 connection.setDoOutput(true);
                 connection.setDoOutput(true);
-                connection.addRequestProperty("Content-Type", "application/json");
-                connection.addRequestProperty("Content-Language", "en-US");
+                if(_authHeader != null) {
+                    connection.addRequestProperty("Content-Type", "application/json");
+                    connection.addRequestProperty("Content-Language", "en-US");
+                }
                 /*connection.setRequestProperty ("Content-Type", "application/json");
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Language", "en-US");*/

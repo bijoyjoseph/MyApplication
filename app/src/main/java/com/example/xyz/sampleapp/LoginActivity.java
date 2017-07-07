@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
 
-                connection.setRequestProperty ("_postman_id", "c8604668-d956-58df-fdbc-d644d72bd1cd");
+                connection.setRequestProperty ("", "");
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Language", "en-US");
                 connection.connect();
