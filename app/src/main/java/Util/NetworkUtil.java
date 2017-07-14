@@ -3,6 +3,7 @@ package Util;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -23,18 +24,18 @@ import java.net.URL;
 
 public class NetworkUtil {
 
-    private final String URL = "";
-    private final String REQUEST_METHOD ="";
+    private static final String URL = "https://api.sandbox.paypal.com/v1/oauth2/token";
+    private static final String REQUEST_METHOD ="POST";
 
     public interface AsyncResponse {
         void processFinish(String output);
     }
 
-    public class APIutil extends AsyncTask<String, String, String> {
+    public static class APIutil extends AsyncTask<String, String, String> {
 
         public AsyncResponse delegate = null;
 
-        public APIutil(AsyncResponse delegate){
+        public APIutil(AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -47,7 +48,8 @@ public class NetworkUtil {
         protected String doInBackground(String... params) {
 
             String JsonResponse = null;
-            String JsonData = params[0];
+            //String JsonData = params[0];
+            JSONObject returnObject = new JSONObject(); //
             JSONObject postData = new JSONObject();
             HttpURLConnection connection = null;
             BufferedReader reader = null;
@@ -61,8 +63,15 @@ public class NetworkUtil {
                 connection.setConnectTimeout(1500);
                 connection.setDoOutput(true);
                 connection.setDoOutput(true);
+
+                JSONObject paypalJsonObject = new JSONObject(); //
+
+                paypalJsonObject.put("Username","AfaQMJCFV5lpEkOZBVw4hbv-LLUFmvyDHrDO6odgJNK08iKBo-ZOrdXyhvdt49bxFVIp5rtPHaoLlm7E"); //
+                paypalJsonObject.put("Password", "EIkTQemGjIHNHRjbaGwBejWJ9Gla_kUR1OQUPq8aqF2fHAZoEdcO54I-DXES9OlQpQZ-gCwpPeTgkyNC"); //
+
                 if(_authHeader != null) {
-                    connection.addRequestProperty("Content-Type", "application/json");
+                    connection.addRequestProperty("Content-Type", "x-www-form-urlencoded");
+                    connection.addRequestProperty("Authorization", paypalJsonObject.toString()); //
                     connection.addRequestProperty("Content-Language", "en-US");
                 }
                 /*connection.setRequestProperty ("Content-Type", "application/json");
@@ -73,10 +82,15 @@ public class NetworkUtil {
                 int responseCode = connection.getResponseCode();
                 connection.connect();
 
+                Log.e("response code:", ""+responseCode);
+
+                returnObject.put("key", "grant_type"); //
+                returnObject.put("value", "client_credentials"); //
+
                 //Log.e("connection", "" + connection);
                 if(postData != null) {
                     Writer writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-                    writer.write(JsonData);
+                    writer.write(returnObject.toString()); //
                     writer.flush();
                     writer.close();
                 }
@@ -111,7 +125,9 @@ public class NetworkUtil {
                 e.printStackTrace();
             } /*catch (JSONException e) {
                 e.printStackTrace();
-            }*/ finally {
+            }*/ catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
                 if (connection != null) {
                     connection.disconnect();
                 }
