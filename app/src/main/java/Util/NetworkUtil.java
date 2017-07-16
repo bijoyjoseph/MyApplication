@@ -66,8 +66,8 @@ public class NetworkUtil {
 
                 JSONObject paypalJsonObject = new JSONObject(); //
 
-                paypalJsonObject.put("Username","AfaQMJCFV5lpEkOZBVw4hbv-LLUFmvyDHrDO6odgJNK08iKBo-ZOrdXyhvdt49bxFVIp5rtPHaoLlm7E"); //
-                paypalJsonObject.put("Password", "EIkTQemGjIHNHRjbaGwBejWJ9Gla_kUR1OQUPq8aqF2fHAZoEdcO54I-DXES9OlQpQZ-gCwpPeTgkyNC"); //
+                paypalJsonObject.put("Username","AfaQMJCFV5lpEkOZBVw4hbv-LLUFmvy"); //
+                paypalJsonObject.put("Password", "F2fHAZoEdcO54I-DXES9OlQpQZ-gCwpPeTgkyNC"); //
 
                 if(_authHeader != null) {
                     connection.addRequestProperty("Content-Type", "x-www-form-urlencoded");

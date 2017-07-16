@@ -21,7 +21,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText search;
     TextView searchResults;
 
-    private final String URL = "https://app.legrooms.com/api/listing/Meeting/Bangalore";
+    private final String URL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
