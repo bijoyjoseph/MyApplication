@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by talentbridge on 5/7/17.
+ * Created by xyz on 5/7/17.
  */
 
 public class NetworkUtil {
